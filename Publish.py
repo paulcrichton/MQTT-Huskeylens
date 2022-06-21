@@ -5,6 +5,7 @@ import numpy
 
 #decode message from subscription
 def on_message(client, userdata, msg):
+    """Extracts payload from MQTT packet for display"""
         global message
         message = msg.payload
         client.disconnect()
@@ -13,10 +14,12 @@ def on_message(client, userdata, msg):
 
 #logging
 def on_log(client, userdata, level, buf):
+    """Shows MQTT connection logs"""
     print("log: ",buf)
     
 
 def open_file(filename):
+    """Opens file and reads data from Cameratrap in CSV format"""
     try:
         file_CSV = open(filename)
         data_CSV = csv.reader(file_CSV)
@@ -29,6 +32,7 @@ def open_file(filename):
 
 #check if there is a connection
 def on_connect(client, userdata, flags, rc):
+    """Checks for valid connection"""
     if rc == 0:
         print("Connected")
         client.connected_flag=True
@@ -48,6 +52,7 @@ def on_connect(client, userdata, flags, rc):
         
 
 def connect_and_publish(broker, bird_array):
+    """Connects to broker and publishes birds"""
         mqtt.Client.connected_flag=False
         
         #Client(client_id="", clean_session=True, userdata=None, protocol=MQTTv311, transport="tcp")

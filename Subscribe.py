@@ -8,18 +8,21 @@ broker_domain="127.0.0.1"
 	
 #decode message
 def on_message(client, userdata, msg):
-        global message
-        message = msg.payload
-        client.disconnect()
+	"""Extracts payload from MQTT packet for display"""
+    global message
+    message = msg.payload
+    client.disconnect()
 	print(message)
 
     
 #logging
 def on_log(client, userdata, level, buf):
-    print("log: ",buf)
+	"""Shows MQTT connection logs"""
+	print("log: ",buf)
 
 #check if there is a connection
 def on_connect(client, userdata, flags, rc):
+	"""Checks for valid connection not as fleshed out as no need only for example"""
     if rc==0:
         client.connected_flag=True
         print("connected OK Returned code=",rc)
@@ -28,12 +31,14 @@ def on_connect(client, userdata, flags, rc):
 
 
 #check if there is a connection
-def on_connect(client, userdata, flags, rc):        
-        client.subscribe("birds/data")
-        time.sleep(10)
+def on_connect(client, userdata, flags, rc):
+	"""Subscribe to MQTT topic"""       
+    client.subscribe("birds/data")
+    time.sleep(10)
 		 
 #
 def connect_and_subscribe(broker):
+	"""Attempt Connection and Subscribe to MQTT topic"""
 	global connection
 	#Client(client_id="", clean_session=True, userdata=None, protocol=MQTTv311, transport="tcp")
 	client = mqtt.Client("lions_gate")
@@ -58,6 +63,7 @@ def connect_and_subscribe(broker):
 
 #format data into array
 def format_data(unformatted_message):
+	"""Format data from MQTT packets ready for analysis and construction into graph"""
 	counter = 0
 	formatted_message = []
 	unformatted_message = unformatted_message.split('[')
@@ -80,6 +86,7 @@ def format_data(unformatted_message):
 
 #count birds and add to dictionary
 def count_birds(formatted_message):
+	"""Count Birds"""
 	count_dict = {}
 
 	for field in formatted_message:
@@ -94,6 +101,7 @@ def count_birds(formatted_message):
 
 #graph counted birds
 def graph(counted_birds):
+	"""Simple Bar Chart Using plt"""
 	names = list(counted_birds.keys())
 	values = list(counted_birds.values())
 
