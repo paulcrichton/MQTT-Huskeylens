@@ -182,7 +182,7 @@ def graph(counted_birds):
 
 ```
 # Contact
-Any questions please contact me at: paul.crichton@outlook.com
+Any questions please contact me at: crichton.paul@outlook.com
 
 Many Thanks,
 Paul
